@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es" style="--verde-profundo: #1F3327; --dorado: #B08D57;"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leznatud — Cuidado de la piel y el cabello</title>
+<style>
+  /* ======================================================
+     TOKENS DE DISEÑO
+     Paleta inspirada en la naturaleza (verde bosque, musgo,
+     arena y un dorado suave) con un aire elegante, no rústico.
+     ====================================================== */
+  :root{
+    --verde-profundo:#1F3327;
+    --verde-musgo:#52735E;
+    --verde-claro:#7C9A7E;
+    --dorado:#B08D57;
+    --dorado-suave:#D9C9A8;
+    --arena:#F1ECDD;
+    --crema:#FBF8F2;
+    --texto:#26291F;
+    --texto-suave:#5C6152;
+    --borde:#DED3B8;
+    --whatsapp:#25D366;
+    --radio:16px;
+    --sombra:0 8px 24px rgba(31,51,39,0.10);
+    --fuente-display: "Iowan Old Style","Palatino Linotype","Book Antiqua",Georgia,serif;
+    --fuente-cuerpo: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--fuente-cuerpo);
+    color:var(--texto);
+    background:var(--crema);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  button{font-family:inherit;cursor:pointer;}
+  a{color:inherit;}
+  h1,h2,h3{font-family:var(--fuente-display);margin:0 0 .4em 0;letter-spacing:.2px;}
+  .oculto{display:none !important;}
+
+  /* Divisor decorativo tipo "vena de hoja": el elemento firma del diseño */
+  .divisor-hoja{
+    width:100%;
+    height:26px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto;
+  }
+  .divisor-hoja svg{width:120px;height:20px;opacity:.55;}
+
+  /* ---------- ENCABEZADO ---------- */
+  header.hero{
+    background:linear-gradient(180deg,var(--verde-profundo) 0%,#25402F 100%);
+    color:var(--arena);
+    padding:56px 20px 42px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 12% 20%, rgba(176,141,87,0.18), transparent 40%),
+      radial-gradient(circle at 88% 78%, rgba(124,154,126,0.18), transparent 45%);
+    pointer-events:none;
+  }
+  .hero-emoji{
+    font-size:52px;
+    display:block;
+    margin-bottom:8px;
+    filter:drop-shadow(0 4px 8px rgba(0,0,0,.25));
+  }
+  .hero h1{
+    font-size:clamp(28px,7vw,42px);
+    color:#fff;
+    position:relative;
+  }
+  .hero .eslogan{
+    font-size:16px;
+    color:var(--dorado-suave);
+    letter-spacing:.4px;
+    position:relative;
+    max-width:32ch;
+    margin:0 auto;
+  }
+
+  /* ---------- SECCIONES ---------- */
+  section{padding:44px 20px;max-width:720px;margin:0 auto;}
+  .sobre p{color:var(--texto-suave);font-size:16px;text-align:center;max-width:52ch;margin:0 auto;}
+  .titulo-seccion{text-align:center;margin-bottom:26px;}
+  .titulo-seccion h2{font-size:26px;color:var(--verde-profundo);}
+  .titulo-seccion .linea{
+    width:44px;height:3px;background:var(--dorado);
+    margin:10px auto 0;border-radius:3px;
+  }
+
+  /* ---------- CATÁLOGO ---------- */
+  #productos-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:18px;
+  }
+  @media(min-width:640px){
+    #productos-grid{grid-template-columns:1fr 1fr;}
+  }
+  .tarjeta-producto{
+    background:var(--crema);
+    border:1px solid var(--borde);
+    border-radius:var(--radio);
+    box-shadow:var(--sombra);
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    position:relative;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .tarjeta-producto:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(31,51,39,0.14);}
+  .producto-imagen{
+    width:100%;
+    height:130px;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--arena),#fff);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:48px;
+    overflow:hidden;
+  }
+  .producto-imagen img{width:100%;height:100%;object-fit:cover;}
+  .producto-categoria{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.6px;
+    color:var(--verde-musgo);
+    font-weight:600;
+  }
+  .producto-nombre{font-family:var(--fuente-display);font-size:19px;color:var(--verde-profundo);}
+  .producto-precio{font-weight:700;color:var(--dorado);font-size:17px;}
+  .producto-desc{font-size:14px;color:var(--texto-suave);flex-grow:1;}
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:12px 18px;
+    border-radius:999px;
+    border:none;
+    font-size:15px;
+    font-weight:600;
+    text-decoration:none;
+    transition:filter .15s ease, transform .15s ease;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-whatsapp{background:var(--whatsapp);color:#fff;width:100%;}
+  .btn-whatsapp:hover{filter:brightness(1.06);}
+  .btn-primario{background:var(--verde-profundo);color:#fff;}
+  .btn-secundario{background:var(--arena);color:var(--verde-profundo);border:1px solid var(--borde);}
+  .btn-dorado{background:var(--dorado);color:#fff;}
+  .btn-peligro{background:#B4483A;color:#fff;}
+  .btn-chico{padding:8px 12px;font-size:13px;}
+
+  /* ---------- CONTACTO ---------- */
+  .contacto-botones{display:flex;flex-direction:column;gap:12px;max-width:340px;margin:0 auto;}
+  .contacto-ciudad{text-align:center;color:var(--texto-suave);font-size:14px;margin-top:16px;}
+
+  footer{
+    text-align:center;
+    padding:26px 20px 90px;
+    color:var(--texto-suave);
+    font-size:13px;
+  }
+
+  /* ---------- BOTÓN FLOTANTE DE EDICIÓN ---------- */
+  #btn-editar{
+    position:fixed;
+    bottom:18px;
+    right:18px;
+    z-index:60;
+    background:var(--verde-profundo);
+    color:#fff;
+    border-radius:999px;
+    padding:12px 18px;
+    box-shadow:0 8px 20px rgba(0,0,0,.25);
+    font-size:14px;
+    opacity:.85;
+  }
+  #btn-editar:hover{opacity:1;}
+
+  /* ---------- PANEL DE EDICIÓN ---------- */
+  #panel-edicion{
+    position:fixed;
+    inset:0;
+    background:rgba(20,28,20,.55);
+    z-index:70;
+    display:flex;
+    justify-content:flex-end;
+  }
+  #panel-edicion .panel-contenido{
+    background:#fff;
+    width:100%;
+    max-width:460px;
+    height:100%;
+    overflow-y:auto;
+    padding:22px;
+    box-shadow:-10px 0 30px rgba(0,0,0,.2);
+  }
+  .panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+    position:sticky;
+    top:0;
+  }
+  .panel-header h2{font-size:20px;color:var(--verde-profundo);}
+  #btn-cerrar-panel{
+    background:var(--arena);
+    border:none;
+    border-radius:50%;
+    width:34px;height:34px;
+    font-size:16px;
+  }
+  .panel-seccion{
+    border:1px solid var(--borde);
+    border-radius:12px;
+    padding:16px;
+    margin-bottom:16px;
+  }
+  .panel-seccion h3{font-size:15px;color:var(--verde-musgo);margin-bottom:12px;}
+  label{
+    display:block;
+    font-size:12px;
+    font-weight:600;
+    color:var(--texto-suave);
+    margin:10px 0 4px;
+  }
+  input[type=text],input[type=tel],input[type=email],input[type=number],textarea,select{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid var(--borde);
+    border-radius:8px;
+    font-size:14px;
+    font-family:inherit;
+    background:var(--crema);
+  }
+  input[type=color]{width:100%;height:40px;border:1px solid var(--borde);border-radius:8px;padding:2px;}
+  textarea{resize:vertical;min-height:64px;}
+  .fila-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+  .item-producto-admin{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border:1px solid var(--borde);
+    border-radius:10px;
+    padding:10px;
+    margin-bottom:8px;
+    background:var(--crema);
+  }
+  .item-producto-admin .mini-emoji{font-size:24px;width:34px;text-align:center;}
+  .item-producto-admin .info{flex-grow:1;min-width:0;}
+  .item-producto-admin .info strong{display:block;font-size:14px;}
+  .item-producto-admin .info span{font-size:12px;color:var(--texto-suave);}
+  .item-producto-admin .acciones{display:flex;gap:4px;flex-wrap:wrap;}
+  .item-producto-admin .acciones button{
+    background:none;border:1px solid var(--borde);border-radius:6px;
+    padding:5px 7px;font-size:13px;
+  }
+
+  .instructivo{
+    background:var(--arena);
+    border-radius:12px;
+    padding:14px 16px;
+    font-size:13px;
+    color:var(--texto);
+  }
+  .instructivo h3{font-size:14px;color:var(--verde-profundo);margin-bottom:8px;}
+  .instructivo ol{margin:0;padding-left:18px;}
+  .instructivo li{margin-bottom:6px;}
+  .instructivo .nota-privado{
+    margin-top:10px;
+    font-style:italic;
+    color:var(--texto-suave);
+  }
+
+  .panel-acciones-export{display:flex;flex-direction:column;gap:8px;margin-top:6px;}
+  .aviso{
+    font-size:12px;
+    padding:8px 10px;
+    border-radius:8px;
+    margin-top:6px;
+  }
+  .aviso-error{background:#FBE4E1;color:#8A2E22;}
+  .aviso-ok{background:#E4F3E6;color:#2A5C33;}
+
+  /* ---------- MODAL PRODUCTO ---------- */
+  #modal-producto{
+    position:fixed;inset:0;z-index:80;
+    background:rgba(20,28,20,.55);
+    display:flex;align-items:center;justify-content:center;
+    padding:16px;
+  }
+  #modal-producto .modal-caja{
+    background:#fff;
+    border-radius:16px;
+    padding:20px;
+    width:100%;
+    max-width:420px;
+    max-height:90vh;
+    overflow-y:auto;
+  }
+  #modal-producto h3{color:var(--verde-profundo);font-size:18px;margin-bottom:6px;}
+
+  /* Controles visibles solo en modo edición, encima de cada tarjeta */
+  .tarjeta-controles{
+    position:absolute;
+    top:10px;right:10px;
+    display:flex;gap:6px;
+  }
+  .tarjeta-controles button{
+    background:#fff;
+    border:1px solid var(--borde);
+    border-radius:8px;
+    padding:4px 7px;
+    font-size:13px;
+    box-shadow:0 2px 6px rgba(0,0,0,.12);
+  }
+</style>
+</head>
+<body class="modo-edicion-activo">
+
+  <!-- ============================================================
+       VISTA PÚBLICA
+       ============================================================ -->
+  <header class="hero">
+    <span class="hero-emoji" id="v-emoji">🌿</span>
+    <h1 id="v-nombre">Leznatud</h1>
+    <p class="eslogan" id="v-eslogan">Cuidado de la piel y el cabello</p>
+  </header>
+
+  <div class="divisor-hoja" aria-hidden="true">
+    <svg viewBox="0 0 120 20" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 10 H120" stroke="#B08D57" stroke-width="1"></path>
+      <path d="M60 10 C55 2, 45 2, 40 10 C45 18, 55 18, 60 10 C65 2, 75 2, 80 10 C75 18, 65 18, 60 10 Z" fill="#7C9A7E"></path>
+    </svg>
+  </div>
+
+  <section class="sobre">
+    <div class="titulo-seccion"><h2>Sobre nosotros</h2><div class="linea"></div></div>
+    <p id="v-descripcion">En Leznatud creamos productos naturales para el cuidado de la piel y el cabello, elaborados con plantas y aceites naturales que nutren y respetan tu belleza natural.</p>
+  </section>
+
+  <section id="catalogo">
+    <div class="titulo-seccion"><h2>Nuestro catálogo</h2><div class="linea"></div></div>
+    <div id="productos-grid"><div class="tarjeta-producto">
+          <div class="producto-imagen"><img src="https://img.freepik.com/premium-photo/photo-variety-natural-skincare-products_1243994-7043.jpg" alt="Crema corporal natural"></div>
+          <span class="producto-categoria">Cuerpo</span>
+          <span class="producto-nombre">Crema corporal natural</span>
+          <span class="producto-precio">$35.000</span>
+          <p class="producto-desc">Hidratación profunda con manteca de karité y aceites esenciales de lavanda.</p>
+          <a class="btn btn-whatsapp" target="_blank" rel="noopener" href="https://wa.me/573045374871?text=%C2%A1Hola!%20Quiero%20pedir%3A%20Crema%20corporal%20natural">💬 Pedir por WhatsApp</a>
+        </div><div class="tarjeta-producto">
+          <div class="producto-imagen"><img src="https://cocinero.guru/wp-content/uploads/2026/01/57846845.jpg" alt="Aceite capilar reparador"></div>
+          <span class="producto-categoria">Cabello</span>
+          <span class="producto-nombre">Aceite capilar reparador</span>
+          <span class="producto-precio">$28.000</span>
+          <p class="producto-desc">Nutre e ilumina el cabello con aceite de argán, coco y romero.</p>
+          <a class="btn btn-whatsapp" target="_blank" rel="noopener" href="https://wa.me/573045374871?text=%C2%A1Hola!%20Quiero%20pedir%3A%20Aceite%20capilar%20reparador">💬 Pedir por WhatsApp</a>
+        </div></div>
+  </section>
+
+  <section id="contacto">
+    <div class="titulo-seccion"><h2>Contáctanos</h2><div class="linea"></div></div>
+    <div class="contacto-botones" id="contacto-botones"><a class="btn btn-whatsapp" href="https://wa.me/573045374871?text=%C2%A1Hola!%20Quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20Leznatud." target="_blank" rel="noopener">💬 Escríbenos por WhatsApp</a></div>
+    <p class="contacto-ciudad" id="v-ciudad">📍 Santa Marta</p>
+  </section>
+
+  <footer>
+    <span id="v-footer-nombre">Leznatud</span> · hecho con cariño 🌿
+  </footer>
+
+  <!-- ============================================================
+       BOTÓN FLOTANTE + PANEL DE EDICIÓN (solo en el editor privado)
+       ============================================================ -->
+  
+
+  
+
+  <!-- Modal agregar/editar producto -->
+  
+
+  <!-- ============================================================
+       DATOS DEL SITIO
+       Este bloque guarda toda la información editable. El botón
+       "Exportar para publicar" actualiza este mismo bloque con los
+       datos más recientes antes de generar la copia pública.
+       ============================================================ -->
+  <script id="datos" type="application/json">{
+  "negocio": {
+    "nombre": "Leznatud",
+    "eslogan": "Cuidado de la piel y el cabello",
+    "descripcion": "En Leznatud creamos productos naturales para el cuidado de la piel y el cabello, elaborados con plantas y aceites naturales que nutren y respetan tu belleza natural.",
+    "emoji": "🌿",
+    "whatsapp": "573045374871",
+    "instagram": "",
+    "correo": "",
+    "ciudad": "Santa Marta",
+    "colorPrincipal": "#1F3327",
+    "colorAcento": "#B08D57"
+  },
+  "productos": [
+    {
+      "id": "p1",
+      "nombre": "Crema corporal natural",
+      "precio": "$35.000",
+      "descripcion": "Hidratación profunda con manteca de karité y aceites esenciales de lavanda.",
+      "categoria": "Cuerpo",
+      "imagen": "https://img.freepik.com/premium-photo/photo-variety-natural-skincare-products_1243994-7043.jpg"
+    },
+    {
+      "id": "p2",
+      "nombre": "Aceite capilar reparador",
+      "precio": "$28.000",
+      "descripcion": "Nutre e ilumina el cabello con aceite de argán, coco y romero.",
+      "categoria": "Cabello",
+      "imagen": "https://cocinero.guru/wp-content/uploads/2026/01/57846845.jpg"
+    }
+  ]
+}</script>
+
+  
+
+
+
+</body></html>
